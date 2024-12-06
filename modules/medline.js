@@ -425,6 +425,7 @@ export let translations = {
 			{raw: 'Preprint', rl: 'unpublished'},
 			{raw: 'Tables', rl: 'chartOrTable'},
 			{raw: 'Technical Report', rl: 'report'},
+			{raw: 'unknown', rl: 'unknown'},
 			{raw: 'Unpublished Work', rl: 'unpublished'},
 			{raw: 'Video-Audio Media', rl: 'audioVisualMaterial'},
 			{raw: 'Web Archive', rl: 'web'},
