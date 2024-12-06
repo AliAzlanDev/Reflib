@@ -152,7 +152,10 @@ export function writeStream(stream, options) {
 		},
 		write: ref => {
 			let refType = translations.types.rlMap.get(ref.type || settings.defaultType);
-			if (!refType) throw new Error(`Invalid reference type: "${ref.type}"`);
+			if (!refType) {
+				console.warn(`Invalid reference type: "${ref.type}", defaulting to journal article`);
+				refType = translations.types.rlMap.get('journalArticle')
+			}
 
 			refsSeen++;
 			let recNumber = ref.recNumber || refsSeen;
@@ -407,7 +410,6 @@ export let translations = {
 			{rl: 'standard', rawText: 'Standard', rawId: 58},
 			{rl: 'statute', rawText: 'Statute', rawId: 31},
 			{rl: 'thesis', rawText: 'Thesis', rawId: 32},
-			{rl: 'unknown', rawText: 'Journal Article', rawId: 34},
 			{rl: 'unpublished', rawText: 'Unpublished Work', rawId: 34},
 			{rl: 'web', rawText: 'Web Page', rawId: 12},
 		],
