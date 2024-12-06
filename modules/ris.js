@@ -324,7 +324,6 @@ export let translations = {
 			{rl: 'standard', raw: 'STAND'},
 			{rl: 'statute', raw: 'STAT'},
 			{rl: 'thesis', raw: 'THES'},
-			{rl: 'unknown', raw: 'unknown'},
 			{rl: 'unpublished', raw: 'UNPB'},
 		],
 		rawMap: new Map(), // Calculated later for quicker lookup
