@@ -163,7 +163,7 @@ export function parseRef(refString, settings) {
 				ref[fieldLookup.rl] = translations.types.rawMap.get(parsedLine.value)?.rl || settings.defaultType;
 				lastField = fieldLookup; // Track last key so we can append to it on the next cycle
 			} else if (fieldLookup.inputArray) { // Should this `rl` key be treated like an appendable array?
-				if (!ref[fieldLookup.rl]) { // Array doesn't exist yet
+				if (!ref[fieldLookup.rl] && !Array.isArray(ref[fieldLookup.rl])) { // Array doesn't exist yet
 					ref[fieldLookup.rl] = [parsedLine.value];
 				} else {
 					ref[fieldLookup.rl].push(parsedLine.value);
