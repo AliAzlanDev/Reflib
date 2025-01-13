@@ -118,6 +118,7 @@ describe('Module: endnoteXml', ()=> {
 			.then(()=> reflib.readFile(tempPath))
 			.then(newRefs => {
 				mlog.log('Comparing', newRefs.length, 'references');
+				expect(newRefs).to.have.length(originalRefs.length);
 				newRefs.forEach((ref, refOffset) =>
 					expect(ref).to.deep.equal(originalRefs[refOffset])
 				);
