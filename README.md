@@ -15,6 +15,7 @@ Compatibility
 | Comma Separated Values | `.csv`          | :x:                | :x:                |
 | EndNote ENL            | `.enl`          | :x:                | :x:                |
 | EndNote ENLX           | `.enlx`         | :x:                | :x:                |
+| EndNote SDB            | `.sdb`          |:heavy_check_mark: | :heavy_check_mark: |
 | EndNote XML            | `.xml`          | :heavy_check_mark: | :heavy_check_mark: |
 | JSON                   | `.json`         | :heavy_check_mark: | :heavy_check_mark: |
 | Medline                | `.nbib`         | :heavy_check_mark: | :heavy_check_mark: |
@@ -24,6 +25,7 @@ Compatibility
 
 **Notes on different formats**:
 
+* "EndNote SDB" is an intermediate format which can be contained inside `.enlx` (zip) files or as stand alone `.enl` files. Both of these are SQLite format databases with tables including `refs` which actually contains the refernces
 * Medline seems to implement a totally different [publication type system](https://www.nlm.nih.gov/mesh/pubtypes.html) than others. Reflib will attempt to guess the best match, storing the original type in the `medlineType` key. Should the citation library be exported _back_ to Medline / `.nbib` files this key will take precedence to avoid data loss
 
 
