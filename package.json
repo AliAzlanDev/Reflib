@@ -5,7 +5,8 @@
   "scripts": {
     "lint": "eslint .",
     "test": "mocha",
-    "test:browser": "cd test/browser && npm run dev"
+    "test:browser": "cd test/browser && npm run dev",
+    "test:watch": "nodemon --exec npm run test"
   },
   "repository": {
     "type": "git",
@@ -49,6 +50,7 @@
     "eslint": "^9.9.0",
     "mocha": "^10.7.3",
     "mocha-logger": "^1.0.8",
+    "nodemon": "^3.1.9",
     "temp": "^0.9.4",
     "vite-plugin-replace": "^0.1.1"
   },
