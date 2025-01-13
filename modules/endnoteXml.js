@@ -5,10 +5,11 @@ import Emitter from '../shared/emitter.js';
 import { WritableStream as XMLParser } from 'htmlparser2/lib/WritableStream';
 
 /**
-* Read an EndnoteXML file, returning a stream analogue
+* Read an EndnoteXML file, returning an Emitter analogue
+*
 * @see modules/inhterface.js
 * @param {Stream} stream Stream primative to encapsulate
-* @returns {Object} A readable stream analogue defined in `modules/interface.js`
+* @returns {Object} An Emitter analogue defined in `../shared/Emitter.js`
 */
 export function readStream(stream) {
 	let emitter = Emitter();
@@ -121,6 +122,8 @@ export function readStream(stream) {
 
 
 /**
+* Write references to a file
+*
 * @see modules/interface.js
 *
 * @param {Stream} stream Writable stream to output to
