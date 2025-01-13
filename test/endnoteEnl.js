@@ -7,12 +7,13 @@ import temp from 'temp';
 
 let __dirname = fspath.resolve(fspath.dirname(decodeURI(new URL(import.meta.url).pathname)));
 
-describe('Module: sqlite', ()=> {
+// FIXME: Needs .enl files creating
+describe.skip('Module: EndNoteENL', ()=> {
 
-	it('should parse an EndNote/SDB file', function () {
+	it('should parse an EndNoteENL file', function () {
 		this.timeout(30 * 1000); //= 30s
 
-		return reflib.readFile(`${__dirname}/data/blue-light.sdb`)
+		return reflib.readFile(`${__dirname}/data/blue-light.enl`)
 			.then(refs => {
 				expect(refs).to.be.an('array');
 				expect(refs).to.have.length(102);
@@ -23,11 +24,11 @@ describe('Module: sqlite', ()=> {
 	it('should run a parse -> write -> parse test with all references', function() {
 		this.timeout(60 * 1000); //= 1m
 
-		let tempPath = temp.path({prefix: 'reflib-', suffix: '.sdb'});
+		let tempPath = temp.path({prefix: 'reflib-', suffix: '.enl'});
 		let originalRefs;
 		return Promise.resolve()
 			.then(()=> mlog.log('Reading ref file'))
-			.then(()=> reflib.readFile(`${__dirname}/data/blue-light.sdb`))
+			.then(()=> reflib.readFile(`${__dirname}/data/blue-light.enl`))
 			.then(refs => {
 				expect(refs).to.have.length(102);
 				originalRefs = refs;

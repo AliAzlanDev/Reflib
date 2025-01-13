@@ -100,10 +100,12 @@ export const columnMappingSL2RL = Object.fromEntries(
 * Read an EndNote / SDB file, returning an Emitter analogue
 *
 * @see modules/inhterface.js
+*
 * @param {Stream} stream Stream primative to encapsulate
+*
 * @returns {Object} An Emitter analogue defined in `../shared/Emitter.js`
 */
-export function readStream(stream) {
+export function readStream(stream, options) {
 	let emitter = Emitter();
 
 	// Queue up the parser in the next tick (so we can return the emitter first)
@@ -168,7 +170,7 @@ export function readStream(stream) {
 
 
 /**
-* Write references to a file
+* Write references to a SQLite database file
 *
 * @see modules/interface.js
 *
@@ -176,7 +178,7 @@ export function readStream(stream) {
 *
 * @returns {Object} A writable stream analogue defined in `modules/interface.js`
 */
-export function writeStream(stream) {
+export function writeStream(stream, options) {
 	let db; // Database we are writing to
 	let refIndex = 0;
 	let insertOp; // Prepared query to insert a single ref
