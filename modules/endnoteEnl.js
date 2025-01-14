@@ -97,13 +97,11 @@ export const columnMappingSL2RL = Object.fromEntries(
 
 
 /**
-* Read an EndNote / SDB file, returning an Emitter analogue
+* Read an EndNote(@11+) / SQLite database, returning an Emitter analogue
 *
 * @see modules/inhterface.js
 *
 * @param {Stream} stream Stream primative to encapsulate
-*
-* @param {Object} [options] Additional options to mutate behaviour
 *
 * @returns {Object} An Emitter analogue defined in `../shared/Emitter.js`
 */
@@ -186,7 +184,7 @@ export function readBuffer(buf, options) {
 
 
 /**
-* Write references to a SQLite database file
+* Write references to an EndNote(@11+)) SQLite database file
 *
 * @see modules/interface.js
 *

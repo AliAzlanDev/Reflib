@@ -31,6 +31,19 @@ class BinaryStringWriter extends Writer {
 	}
 }
 
+
+/**
+* Read an EndNote(@11+) / Zip+SQLite database EnlX returning an Emitter analogue
+*
+* Since EnlX files are really just a Zip file containing the SQLite database we're actually intrestesd in, most of this module
+* is handling the Zip container and handing the extracted buffer to the regular modules/endnoteEnl.js driver
+*
+* @see modules/inhterface.js
+*
+* @param {Stream} stream Stream primative to encapsulate
+*
+* @returns {Object} An Emitter analogue defined in `../shared/Emitter.js`
+*/
 export function readStream(stream) {
 	let emitter = Emitter();
 
