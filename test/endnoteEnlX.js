@@ -22,18 +22,18 @@ describe('Module: EndNoteEnlX', ()=> {
 	it.skip('should run a parse -> write -> parse test with all references', function() {
 		this.timeout(60 * 1000); //= 1m
 
-		let tempPath = temp.path({prefix: 'reflib-', suffix: '.sdb'});
+		let tempPath = temp.path({prefix: 'reflib-', suffix: '.enlx'});
 		let originalRefs;
 		return Promise.resolve()
 			.then(()=> mlog.log('Reading ref file'))
-			.then(()=> reflib.readFile(`${__dirname}/data/blue-light.sdb`))
+			.then(()=> reflib.readFile(`${__dirname}/data/blue-light.enlx`))
 			.then(refs => {
 				expect(refs).to.have.length(102);
 				originalRefs = refs;
 			})
 			.then(()=> mlog.log('Writing ref file'))
 			.then(()=> reflib.writeFile(tempPath, originalRefs))
-			.then(()=> mlog.log(`SDB file available at ${tempPath}`))
+			.then(()=> mlog.log(`EnlX file available at ${tempPath}`))
 			.then(()=> mlog.log('Re-reading ref file'))
 			.then(()=> reflib.readFile(tempPath))
 			.then(newRefs => {
