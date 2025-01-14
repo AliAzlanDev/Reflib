@@ -103,9 +103,11 @@ export const columnMappingSL2RL = Object.fromEntries(
 *
 * @param {Stream} stream Stream primative to encapsulate
 *
+* @param {Object} [options] Additional options to mutate behaviour
+*
 * @returns {Object} An Emitter analogue defined in `../shared/Emitter.js`
 */
-export function readStream(stream, options) {
+export function readStream(stream) {
 	let emitter = Emitter();
 
 	// Queue up the parser in the next tick (so we can return the emitter first)
@@ -117,8 +119,7 @@ export function readStream(stream, options) {
 			.on('error', e => emitter.emit('error', e))
 			.on('end', ()=> {
 				Promise.resolve()
-					// Parse chunks into an arrayBuffer {{{
-					.then(()=> {
+					.then(()=> { // Parse chunks into an arrayBuffer
 						let buf = new Uint8Array(
 							chunks.reduce((total, chunk) => total + chunk.length, 0)
 						);
@@ -131,41 +132,56 @@ export function readStream(stream, options) {
 
 						// Release chunks to free up memory
 						chunks = [];
+
 						return buf;
 					})
-					// }}}
-					// Init database {{{
-					.then(buf => SQLite()
-						.then(sqli => ({sqli, buf}))
-					)
-					// }}}
-					// Create SQLite database {{{
-					.then(({sqli, buf}) => new sqli.Database(
-						new Uint8Array(buf)
-					))
-					// }}}
-					// Slurp all references {{{
-					.then(db => db.exec('SELECT * from refs'))
-					.then(([{columns, values}]) => {
-						values.forEach(v => {
-							let ref = columns.reduce((ref, col, colIndex) => {
-								if (columnMappingSL2RL[col]) // Is a column we have a mapping for (implied else - ignore the data)
-									ref[columnMappingSL2RL[col].rl] = v[colIndex];
-
-								return ref;
-							}, {});
-
+					.then(buf => this.readBuffer(buf, { // Hand arrayBuffer off to readBuffer() for processing
+						onRef(ref) {
 							emitter.emit('ref', ref);
-						})
-					})
-					// }}}
-					// Signal end of parsing {{{
+						},
+					}))
 					.finally(()=> emitter.emit('end'))
-					// }}}
 			})
 	});
 
 	return emitter;
+}
+
+
+/**
+* Actual reader function
+* Accepts a buffer and tiggers the emitter when references are extracted + when ending
+*
+* @param {Uint8Array} buf The buffer to process
+*
+* @param {Object} [options] Additional options to mutate behaviour
+* @param {Function} [options.onRef] Function to trigger when we extract a reference from the buffer. Called as `(ref:RefLibRef)`
+* @param {String} [options.refTable='enl_refs'] The name of the reference table to query
+*
+* @returns {Promise} A promise which will eventually resolve when the read operation on the buffer has completed
+*/
+export function readBuffer(buf, options) {
+	let settings = {
+		refTable: 'refs',
+		onRef() {},
+		...options,
+	};
+	return Promise.resolve()
+		.then(()=> SQLite()) // Init database
+		.then(sqli => new sqli.Database(buf)) // Create SQLite database
+		.then(db => db.exec(`SELECT * from ${settings.refTable}`)) // Slurp all references
+		.then(([{columns, values}]) => { // Digest references
+			values.forEach(v => {
+				let ref = columns.reduce((ref, col, colIndex) => {
+					if (columnMappingSL2RL[col]) // Is a column we have a mapping for (implied else - ignore the data)
+						ref[columnMappingSL2RL[col].rl] = v[colIndex];
+
+					return ref;
+				}, {});
+
+				settings.onRef(ref);
+			})
+		})
 }
 
 
@@ -178,7 +194,7 @@ export function readStream(stream, options) {
 *
 * @returns {Object} A writable stream analogue defined in `modules/interface.js`
 */
-export function writeStream(stream, options) {
+export function writeStream(stream) {
 	let db; // Database we are writing to
 	let refIndex = 0;
 	let insertOp; // Prepared query to insert a single ref
@@ -192,10 +208,10 @@ export function writeStream(stream, options) {
 				.then(()=> insertOp = db.prepare(
 					'INSERT INTO refs'
 					+ '('
-					+ columnMappings.map(cm => cm.sl).join(', ')
+						+ columnMappings.map(cm => cm.sl).join(', ')
 					+ ') '
 					+ 'VALUES ('
-					+ columnMappings.map(cm => cm.sl).map(k => ':' + k).join(', ')
+						+ columnMappings.map(cm => cm.sl).map(k => ':' + k).join(', ')
 					+ ')'
 				))
 		},

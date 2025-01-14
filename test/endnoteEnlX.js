@@ -1,5 +1,4 @@
 import {expect} from 'chai';
-import {compareTestRefs} from './data/blue-light.js';
 import * as reflib from '../lib/default.js';
 import fspath from 'node:path';
 import mlog from 'mocha-logger';
@@ -7,12 +6,12 @@ import temp from 'temp';
 
 let __dirname = fspath.resolve(fspath.dirname(decodeURI(new URL(import.meta.url).pathname)));
 
-describe('Module: EndNoteENL', ()=> {
+describe('Module: EndNoteEnlX', ()=> {
 
-	it('should parse an EndNoteENL file', function () {
+	it('should parse an EndNoteX file', function () {
 		this.timeout(30 * 1000); //= 30s
 
-		return reflib.readFile(`${__dirname}/data/blue-light.enl`)
+		return reflib.readFile(`${__dirname}/data/blue-light.enlx`)
 			.then(refs => {
 				expect(refs).to.be.an('array');
 				expect(refs).to.have.length(102);
@@ -20,14 +19,14 @@ describe('Module: EndNoteENL', ()=> {
 	});
 
 	// End-to-end test {{{
-	it('should run a parse -> write -> parse test with all references', function() {
+	it.skip('should run a parse -> write -> parse test with all references', function() {
 		this.timeout(60 * 1000); //= 1m
 
-		let tempPath = temp.path({prefix: 'reflib-', suffix: '.enl'});
+		let tempPath = temp.path({prefix: 'reflib-', suffix: '.sdb'});
 		let originalRefs;
 		return Promise.resolve()
 			.then(()=> mlog.log('Reading ref file'))
-			.then(()=> reflib.readFile(`${__dirname}/data/blue-light.enl`))
+			.then(()=> reflib.readFile(`${__dirname}/data/blue-light.sdb`))
 			.then(refs => {
 				expect(refs).to.have.length(102);
 				originalRefs = refs;

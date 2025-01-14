@@ -13,8 +13,8 @@ Compatibility
 | Library                | Extension(s)    | Read               | Write              |
 |------------------------|-----------------|--------------------|--------------------|
 | Comma Separated Values | `.csv`          | :x:                | :x:                |
-| EndNote ENL            | `.enl`          | :heavy_check_mark: | :heavy_check_mark: |
-| EndNote ENLX           | `.enlx`         | :x:                | :x:                |
+| EndNote ENL            | `.enl`          | :heavy_check_mark: | (untested)         |
+| EndNote ENLX           | `.enlx`         | :heavy_check_mark: | :x:                |
 | EndNote XML            | `.xml`          | :heavy_check_mark: | :heavy_check_mark: |
 | JSON                   | `.json`         | :heavy_check_mark: | :heavy_check_mark: |
 | Medline                | `.nbib`         | :heavy_check_mark: | :heavy_check_mark: |
