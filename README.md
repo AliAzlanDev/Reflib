@@ -1,5 +1,5 @@
-Reflib
-======
+@IEBH/Reflib
+============
 Reference library processing for Node.
 
 This library provides various read/write functionality to process citation libraries and handle individual references (henceforth "Refs").
