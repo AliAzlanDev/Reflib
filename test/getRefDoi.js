@@ -11,7 +11,7 @@ describe('getRefDoi()', () => {
     before(async () => {
         // const filePath = fspath.join(__dirname, 'data/Dump-Converted test.xml');
         // library = await reflib.readFile(filePath);
-        const filePath = 'C:/Users/Public/GitHub/Reflib/test/data/Dump-Converted test.xml';
+        const filePath = `${__dirname}/data/Dump-Converted test.xml`;
         // console.log("File path:", filePath);
         library = await reflib.readFile(filePath);
     });
@@ -19,7 +19,7 @@ describe('getRefDoi()', () => {
     // it('should update DOI in the reference object if it has the prefix', () => {
     //     // console.log("Ref values to see what is happening", library[0])
     //     library.forEach(ref => {
-    //         const originalDoi = ref.doi; 
+    //         const originalDoi = ref.doi;
     //         const doiResult = getRefDoi(ref);
     //         console.log("Inside", originalDoi,"-->",doiResult.doi)
     //         if (originalDoi) {
@@ -35,16 +35,16 @@ describe('getRefDoi()', () => {
 
     it('should update DOI in the reference object if it has the prefix', () => {
         library.forEach(ref => {
-            const originalDoi = ref.doi; 
+            const originalDoi = ref.doi;
             const doiResult = getRefDoi(ref); // This will now return just the DOI value
             // console.log("Inside", originalDoi, "-->", doiResult);
-    
+
             if (originalDoi) {
                 if (originalDoi.startsWith('https://dx.doi.org/')) {
                     const expectedDoi = originalDoi.replace('https://dx.doi.org/', '');
                     expect(doiResult).to.equal(expectedDoi);
                 } else {
-                    expect(doiResult).to.equal(originalDoi); 
+                    expect(doiResult).to.equal(originalDoi);
                 }
             } else {
                 expect(doiResult).to.be.null;
